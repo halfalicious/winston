@@ -5,7 +5,7 @@
 
 import {Agent} from "http";
 
-import * as Transport from 'winston-transport';
+import * as Transport from '@halfalicious/winston-transport';
 
 declare namespace winston {
   interface ConsoleTransportOptions extends Transport.TransportStreamOptions {

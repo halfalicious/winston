@@ -6,7 +6,7 @@
 import * as NodeJSStream from "stream";
 
 import * as logform from 'logform';
-import * as Transport from 'winston-transport';
+import * as Transport from '@halfalicious/winston-transport';
 
 import * as Config from './lib/winston/config/index';
 import * as Transports from './lib/winston/transports/index';
@@ -32,6 +32,21 @@ declare namespace winston {
     getTrace(err: Error): object;
 
     new(logger: Logger): ExceptionHandler;
+  }
+
+  interface RejectionHandler {
+    logger: Logger;
+    handlers: Map<any, any>;
+    catcher: Function | boolean;
+
+    handle(...transports: Transport[]): void;
+    unhandle(...transports: Transport[]): void;
+    getAllInfo(err: string | Error): object;
+    getProcessInfo(): object;
+    getOsInfo(): object;
+    getTrace(err: Error): object;
+
+    new(logger: Logger): RejectionHandler;
   }
 
   interface QueryOptions {
@@ -83,7 +98,9 @@ declare namespace winston {
     defaultMeta?: any;
     transports?: Transport[] | Transport;
     handleExceptions?: boolean;
+    handleRejections?: boolean;
     exceptionHandlers?: any;
+    rejectionHandlers?: any;
   }
 
   interface Logger extends NodeJSStream.Transform {
@@ -93,6 +110,7 @@ declare namespace winston {
     level: string;
     transports: Transport[];
     exceptions: ExceptionHandler;
+    rejections: RejectionHandler;
     profilers: object;
     exitOnError: Function | boolean;
     defaultMeta?: any;
@@ -158,6 +176,7 @@ declare namespace winston {
 
   let version: string;
   let ExceptionHandler: ExceptionHandler;
+  let RejectionHandler: RejectionHandler;
   let Container: Container;
   let loggers: Container;
 
@@ -186,6 +205,7 @@ declare namespace winston {
   let child: (options: Object) => Logger;
   let level: string;
   let exceptions: ExceptionHandler;
+  let rejections: RejectionHandler;
   let exitOnError: Function | boolean;
   // let default: object;
 }

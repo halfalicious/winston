@@ -18,7 +18,7 @@ const { MESSAGE } = require('triple-beam');
 const winston = require('../lib/winston');
 const LegacyTransport = require('./helpers/mocks/legacy-transport');
 const LegacyMixedTransport = require('./helpers/mocks/legacy-mixed-transport');
-const TransportStream = require('winston-transport');
+const TransportStream = require('@halfalicious/winston-transport');
 const helpers = require('./helpers');
 
 /*
